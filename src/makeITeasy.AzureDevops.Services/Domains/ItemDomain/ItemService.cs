@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Autofac.Extras.Attributed;
+using Autofac.Features.AttributeFilters;
 using makeITeasy.AzureDevops.Models;
 using makeITeasy.AzureDevops.Services.Interfaces;
 
@@ -10,18 +10,20 @@ namespace makeITeasy.AzureDevops.Services.Domains.ItemDomain
 {
     public class ItemService : IItemService
     {
-        private readonly IItemRepository _itemRepository;
+        private readonly IItemRepository _destinationItemRepository;
+        private readonly IItemRepository _sourceItemRepository;
 
-        public ItemService([WithKey("Destination")]IItemRepository itemRepository, [WithKey("Source")]IItemRepository sourceItemRepository)
+        public ItemService([KeyFilter("Destination")]IItemRepository destinationItemRepository, [KeyFilter("Source")]IItemRepository sourceItemRepository)
         {
-            this._itemRepository = itemRepository;
+            this._destinationItemRepository = destinationItemRepository;
+            this._sourceItemRepository = sourceItemRepository;
         }
 
         public async Task<bool> CreateItemProcessAsync(Item item)
         {
             var x = item;
 
-            await Task.Delay(20000);
+            _destinationItemRepository.CreateItem(item);
 
             return true;
         }
