@@ -8,5 +8,6 @@ namespace makeITeasy.AzureDevops.Models.Configuration
     {
         public String Uri { get; set; }
         public String Token { get; set; }
+        public String ProjectName { get; set; }
     }
 }

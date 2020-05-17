@@ -6,6 +6,7 @@ namespace makeITeasy.AzureDevops.Models
 {
     public class Item
     {
+        public String ID { get; set; }
         public String Title { get; set; }
         public String Description { get; set; }
     }

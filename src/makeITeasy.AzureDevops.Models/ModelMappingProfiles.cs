@@ -11,6 +11,7 @@ namespace makeITeasy.AzureDevops.Models
         public ModelMappingProfiles()
         {
             CreateMap<JiraIssue, Item>()
+                .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.Key))
                 .IncludeMembers(src => src.Fields)
                 ;
 

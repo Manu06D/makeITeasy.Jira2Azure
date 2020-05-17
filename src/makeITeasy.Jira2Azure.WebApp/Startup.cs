@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
-using Autofac.Extras.Attributed;
+using Autofac.Features.AttributeFilters;
 using AutoMapper;
 using makeITeasy.AzureDevops.Infrastructure.ItemRepositories;
 using makeITeasy.AzureDevops.Infrastructure.Jobs;
@@ -52,17 +52,6 @@ namespace makeITeasy.Jira2Azure.WebApp
             services.AddAutoMapper(ModelsAssembly.Get);
 
             services.AddMediatR(ServiceAssembly.Get);
-
-            services.AddTransient<Func<ItemRepositoryDefinition, IItemRepository>>(serviceProvider => def =>
-            {
-                switch (def)
-                {
-                    case ItemRepositoryDefinition.Destination:
-                        return serviceProvider.GetService<AzureDevopsRepository>();
-                    default:
-                        return null;
-                }
-            });
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -71,7 +60,8 @@ namespace makeITeasy.Jira2Azure.WebApp
             builder.RegisterType<JiraRepository>().Keyed<IItemRepository>("Source");
             builder.Register<AzureDevopsRepository>(x => new AzureDevopsRepository(Configuration.GetSection("ItemRepositories:AzureDevops").Get<AzureDevopsConfiguration>())).Keyed<IItemRepository>("Destination");
 
-            builder.RegisterType<ItemService>().As<IItemService>().WithAttributeFilter();
+            builder.RegisterType<ItemService>().As<IItemService>().WithAttributeFiltering();
+                //.WithAttributeFilter();
 
         }
 
