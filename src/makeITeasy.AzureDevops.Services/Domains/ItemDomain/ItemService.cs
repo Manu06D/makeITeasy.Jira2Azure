@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Autofac.Extras.Attributed;
 using makeITeasy.AzureDevops.Models;
 using makeITeasy.AzureDevops.Services.Interfaces;
 
@@ -11,7 +12,7 @@ namespace makeITeasy.AzureDevops.Services.Domains.ItemDomain
     {
         private readonly IItemRepository _itemRepository;
 
-        public ItemService(IItemRepository itemRepository)
+        public ItemService([WithKey("Destination")]IItemRepository itemRepository, [WithKey("Source")]IItemRepository sourceItemRepository)
         {
             this._itemRepository = itemRepository;
         }
