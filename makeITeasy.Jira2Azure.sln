@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "makeITeasy.Jira2Azure.WebApp", "src\makeITeasy.Jira2Azure.WebApp\makeITeasy.Jira2Azure.WebApp.csproj", "{7F944E3B-F8D9-4308-A0A7-E9FAD0D2ADBD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "makeITeasy.AzureDevops.Infrastructure", "src\makeITeasy.AzureDevops.Infrastructure\makeITeasy.AzureDevops.Infrastructure.csproj", "{1E5422FA-E616-452F-AE94-ED0A2C98023A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "makeITeasy.AzureDevops.Services", "src\makeITeasy.AzureDevops.Services\makeITeasy.AzureDevops.Services.csproj", "{BF05FD90-B80B-48D5-BAC1-A3A470EB8CE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "makeITeasy.AzureDevops.Models", "src\makeITeasy.AzureDevops.Models\makeITeasy.AzureDevops.Models.csproj", "{2321C2A2-C463-4553-A674-13B0822C14A7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F944E3B-F8D9-4308-A0A7-E9FAD0D2ADBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F944E3B-F8D9-4308-A0A7-E9FAD0D2ADBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F944E3B-F8D9-4308-A0A7-E9FAD0D2ADBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F944E3B-F8D9-4308-A0A7-E9FAD0D2ADBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E5422FA-E616-452F-AE94-ED0A2C98023A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E5422FA-E616-452F-AE94-ED0A2C98023A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E5422FA-E616-452F-AE94-ED0A2C98023A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E5422FA-E616-452F-AE94-ED0A2C98023A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF05FD90-B80B-48D5-BAC1-A3A470EB8CE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF05FD90-B80B-48D5-BAC1-A3A470EB8CE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF05FD90-B80B-48D5-BAC1-A3A470EB8CE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF05FD90-B80B-48D5-BAC1-A3A470EB8CE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2321C2A2-C463-4553-A674-13B0822C14A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2321C2A2-C463-4553-A674-13B0822C14A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2321C2A2-C463-4553-A674-13B0822C14A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2321C2A2-C463-4553-A674-13B0822C14A7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9826EDFE-67DB-45D8-BEC5-431F470AA4F2}
+	EndGlobalSection
+EndGlobal
