@@ -2,9 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using makeITeasy.AzureDevops.Infrastructure.ItemRepositories;
 using makeITeasy.AzureDevops.Infrastructure.Jobs;
 using makeITeasy.AzureDevops.Infrastructure.Scheduler;
+using makeITeasy.AzureDevops.Models;
+using makeITeasy.AzureDevops.Models.Configuration;
 using makeITeasy.AzureDevops.Models.Scheduler;
+using makeITeasy.AzureDevops.Services;
+using makeITeasy.AzureDevops.Services.Domains.ItemDomain;
+using makeITeasy.AzureDevops.Services.Interfaces;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -25,7 +33,9 @@ namespace makeITeasy.Jira2Azure.WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson()
+                ;
 
             services.RegisterScheduler();
 
@@ -34,6 +44,25 @@ namespace makeITeasy.Jira2Azure.WebApp
             services.AddSingleton(new JobSchedule(jobType: typeof(FoobarJob), cronExpression: "0/5 * * * * ?"));
 
             services.AddHostedService<QuartzHostedService>();
+
+            services.AddAutoMapper(ModelsAssembly.Get);
+
+            services.AddMediatR(ServiceAssembly.Get);
+
+            services.AddScoped<IItemService, ItemService>();
+
+            services.AddScoped<IItemRepository, AzureDevopsRepository>(x => new AzureDevopsRepository(Configuration.GetSection("ItemRepositories:AzureDevops").Get<AzureDevopsConfiguration>()));
+
+            services.AddTransient<Func<ItemRepositoryDefinition, IItemRepository>>(serviceProvider => def =>
+            {
+                switch (def)
+                {
+                    case ItemRepositoryDefinition.Destination:
+                        return serviceProvider.GetService<AzureDevopsRepository>();
+                    default:
+                        return null;
+                }
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,9 +76,9 @@ namespace makeITeasy.Jira2Azure.WebApp
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                //app.UseHsts();
             }
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();

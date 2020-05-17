@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\makeITeasy.AzureDevops.Models\makeITeasy.AzureDevops.Models.csproj" />
+    <ProjectReference Include="..\makeITeasy.AzureDevops.Services\makeITeasy.AzureDevops.Services.csproj" />
   </ItemGroup>
 
 </Project>

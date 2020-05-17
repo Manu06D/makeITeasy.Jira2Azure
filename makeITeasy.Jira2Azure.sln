@@ -3,13 +3,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "makeITeasy.Jira2Azure.WebApp", "src\makeITeasy.Jira2Azure.WebApp\makeITeasy.Jira2Azure.WebApp.csproj", "{7F944E3B-F8D9-4308-A0A7-E9FAD0D2ADBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "makeITeasy.Jira2Azure.WebApp", "src\makeITeasy.Jira2Azure.WebApp\makeITeasy.Jira2Azure.WebApp.csproj", "{7F944E3B-F8D9-4308-A0A7-E9FAD0D2ADBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "makeITeasy.AzureDevops.Infrastructure", "src\makeITeasy.AzureDevops.Infrastructure\makeITeasy.AzureDevops.Infrastructure.csproj", "{1E5422FA-E616-452F-AE94-ED0A2C98023A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "makeITeasy.AzureDevops.Infrastructure", "src\makeITeasy.AzureDevops.Infrastructure\makeITeasy.AzureDevops.Infrastructure.csproj", "{1E5422FA-E616-452F-AE94-ED0A2C98023A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "makeITeasy.AzureDevops.Services", "src\makeITeasy.AzureDevops.Services\makeITeasy.AzureDevops.Services.csproj", "{BF05FD90-B80B-48D5-BAC1-A3A470EB8CE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "makeITeasy.AzureDevops.Services", "src\makeITeasy.AzureDevops.Services\makeITeasy.AzureDevops.Services.csproj", "{BF05FD90-B80B-48D5-BAC1-A3A470EB8CE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "makeITeasy.AzureDevops.Models", "src\makeITeasy.AzureDevops.Models\makeITeasy.AzureDevops.Models.csproj", "{2321C2A2-C463-4553-A674-13B0822C14A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "makeITeasy.AzureDevops.Models", "src\makeITeasy.AzureDevops.Models\makeITeasy.AzureDevops.Models.csproj", "{2321C2A2-C463-4553-A674-13B0822C14A7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "traces", "traces", "{B27342BC-93C3-4CE7-8A01-B0992F0AEA40}"
+	ProjectSection(SolutionItems) = preProject
+		createdIssue.json = createdIssue.json
+		deletedIssue.json = deletedIssue.json
+		modifiedIssue.json = modifiedIssue.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{25C56732-DB21-468B-B3AF-805063F858FC}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
