@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extras.Attributed;
 using AutoMapper;
 using makeITeasy.AzureDevops.Infrastructure.ItemRepositories;
 using makeITeasy.AzureDevops.Infrastructure.Jobs;
@@ -29,6 +31,8 @@ namespace makeITeasy.Jira2Azure.WebApp
         }
 
         public IConfiguration Configuration { get; }
+        public ILifetimeScope AutofacContainer { get; private set; }
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -49,10 +53,6 @@ namespace makeITeasy.Jira2Azure.WebApp
 
             services.AddMediatR(ServiceAssembly.Get);
 
-            services.AddScoped<IItemService, ItemService>();
-
-            services.AddScoped<IItemRepository, AzureDevopsRepository>(x => new AzureDevopsRepository(Configuration.GetSection("ItemRepositories:AzureDevops").Get<AzureDevopsConfiguration>()));
-
             services.AddTransient<Func<ItemRepositoryDefinition, IItemRepository>>(serviceProvider => def =>
             {
                 switch (def)
@@ -63,6 +63,16 @@ namespace makeITeasy.Jira2Azure.WebApp
                         return null;
                 }
             });
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+
+            builder.RegisterType<JiraRepository>().Keyed<IItemRepository>("Source");
+            builder.Register<AzureDevopsRepository>(x => new AzureDevopsRepository(Configuration.GetSection("ItemRepositories:AzureDevops").Get<AzureDevopsConfiguration>())).Keyed<IItemRepository>("Destination");
+
+            builder.RegisterType<ItemService>().As<IItemService>().WithAttributeFilter();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
