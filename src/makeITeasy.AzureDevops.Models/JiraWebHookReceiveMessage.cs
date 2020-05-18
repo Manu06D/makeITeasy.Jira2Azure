@@ -144,7 +144,7 @@ namespace makeITeasy.AzureDevops.Models
         public object Customfield10023 { get; set; }
 
         [JsonProperty("labels")]
-        public object[] Labels { get; set; }
+        public string[] Labels { get; set; }
 
         [JsonProperty("customfield_10016")]
         public object Customfield10016 { get; set; }
