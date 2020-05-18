@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "makeITeasy.AzureDevops.Mode
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "traces", "traces", "{B27342BC-93C3-4CE7-8A01-B0992F0AEA40}"
 	ProjectSection(SolutionItems) = preProject
+		addlabel.json = addlabel.json
+		addlabel2.json = addlabel2.json
 		createdIssue.json = createdIssue.json
 		deletedIssue.json = deletedIssue.json
 		modifiedIssue.json = modifiedIssue.json
