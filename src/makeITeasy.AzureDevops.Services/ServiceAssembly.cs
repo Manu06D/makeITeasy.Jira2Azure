@@ -8,6 +8,6 @@ namespace makeITeasy.AzureDevops.Services
 {
     public static class ServiceAssembly
     {
-        public static Assembly Get => typeof(ServiceAssembly).Assembly;
+        public static Assembly GetAssembly => typeof(ServiceAssembly).Assembly;
     }
 }

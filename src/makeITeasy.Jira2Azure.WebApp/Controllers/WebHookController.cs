@@ -21,13 +21,13 @@ namespace makeITeasy.Jira2Azure.WebApp.Controllers
         {
             _logger = logger;
             _mapper = mapper;
-            this._mediator = mediator;
+            _mediator = mediator;
         }
 
         [HttpPost]
         public IActionResult Jira([FromBody]JiraWebHookReceiveMessage incomingMessage)
         {
-            var eventType = _mapper.Map<EventType>(incomingMessage.IssueEventTypeName);
+            var eventType = _mapper.Map<ItemChangeEventType>(incomingMessage.IssueEventTypeName);
             var item = _mapper.Map<Item>(incomingMessage.Issue);
 
             _mediator.Publish(new ItemChangeCommand(eventType, item));

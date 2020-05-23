@@ -34,35 +34,31 @@ namespace makeITeasy.Jira2Azure.WebApp
         public ILifetimeScope AutofacContainer { get; private set; }
 
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews()
-                .AddNewtonsoftJson()
-                ;
+            services.AddControllersWithViews().AddNewtonsoftJson();
 
             services.RegisterScheduler();
 
+            //register jobs
             services.AddScoped<FoobarJob>();
-
             services.AddSingleton(new JobSchedule(jobType: typeof(FoobarJob), cronExpression: "0/5 * * * * ?"));
 
             services.AddHostedService<QuartzHostedService>();
 
-            services.AddAutoMapper(ModelsAssembly.Get);
-
-            services.AddMediatR(ServiceAssembly.Get);
+            services.AddAutoMapper(ModelsAssembly.GetAssembly);
+            services.AddMediatR(ServiceAssembly.GetAssembly);
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
+            builder.RegisterType<JiraRepository>()
+                .Keyed<IItemRepository>("Source");
 
-            builder.RegisterType<JiraRepository>().Keyed<IItemRepository>("Source");
-            builder.Register<AzureDevopsRepository>(x => new AzureDevopsRepository(Configuration.GetSection("ItemRepositories:AzureDevops").Get<AzureDevopsConfiguration>())).Keyed<IItemRepository>("Destination");
+            builder.Register(x => new AzureDevopsRepository(Configuration.GetSection("ItemRepositories:AzureDevops").Get<AzureDevopsConfiguration>()))
+                .Keyed<IItemRepository>("Destination");
 
             builder.RegisterType<ItemService>().As<IItemService>().WithAttributeFiltering();
-                //.WithAttributeFilter();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,9 +71,9 @@ namespace makeITeasy.Jira2Azure.WebApp
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 //app.UseHsts();
             }
+
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
 

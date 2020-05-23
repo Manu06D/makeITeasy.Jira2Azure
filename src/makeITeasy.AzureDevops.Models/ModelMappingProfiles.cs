@@ -21,7 +21,7 @@ namespace makeITeasy.AzureDevops.Models
                 ;
 
 
-            CreateMap<JiraIssueEventType, EventType>()
+            CreateMap<JiraIssueEventType, ItemChangeEventType>()
                 .ReverseMap();
         }
     }

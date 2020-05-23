@@ -7,6 +7,6 @@ namespace makeITeasy.AzureDevops.Models
 {
     public static class ModelsAssembly
     {
-        public static Assembly Get => typeof(ModelsAssembly).Assembly;
+        public static Assembly GetAssembly => typeof(ModelsAssembly).Assembly;
     }
 }
