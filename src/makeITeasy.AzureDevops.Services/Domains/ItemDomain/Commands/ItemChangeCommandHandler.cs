@@ -25,9 +25,9 @@ namespace makeITeasy.AzureDevops.Services.Domains.ItemDomain.Commands
             Action<Item> action =
                 notification.EventType switch
                 {
-                    EventType.Create => async (x) => await _itemservice.CreateItemProcessAsync(x),
-                    EventType.Update => async (x) => await _itemservice.UpdateItemProcessAsync(x),
-                    EventType.Delete => async (x) => await _itemservice.DeleteItemProcessAsync(x),
+                    ItemChangeEventType.Create => async (x) => await _itemservice.CreateItemProcessAsync(x),
+                    ItemChangeEventType.Update => async (x) => await _itemservice.UpdateItemProcessAsync(x),
+                    ItemChangeEventType.Delete => async (x) => await _itemservice.DeleteItemProcessAsync(x),
                     _ => throw new Exception("Unable to find type for command")
                 };
 

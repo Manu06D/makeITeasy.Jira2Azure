@@ -4,7 +4,7 @@ using System.Text;
 
 namespace makeITeasy.AzureDevops.Models
 {
-    public enum EventType
+    public enum ItemChangeEventType
     {
         Create = 0,
         Update = 1,
