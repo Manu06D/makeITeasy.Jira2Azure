@@ -26,6 +26,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{25C56732-D
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F3B8F76F-F0BE-4CDD-BFDE-2B854F3411D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "makeITeasy.Jira2Azure.Tests", "makeITeasy.Jira2Azure.Tests\makeITeasy.Jira2Azure.Tests.csproj", "{454F091D-69F7-4CC2-BACF-57944B6467C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,9 +52,16 @@ Global
 		{2321C2A2-C463-4553-A674-13B0822C14A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2321C2A2-C463-4553-A674-13B0822C14A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2321C2A2-C463-4553-A674-13B0822C14A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{454F091D-69F7-4CC2-BACF-57944B6467C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{454F091D-69F7-4CC2-BACF-57944B6467C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{454F091D-69F7-4CC2-BACF-57944B6467C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{454F091D-69F7-4CC2-BACF-57944B6467C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{454F091D-69F7-4CC2-BACF-57944B6467C7} = {F3B8F76F-F0BE-4CDD-BFDE-2B854F3411D8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9826EDFE-67DB-45D8-BEC5-431F470AA4F2}

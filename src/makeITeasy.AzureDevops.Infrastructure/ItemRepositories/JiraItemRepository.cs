@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using makeITeasy.AzureDevops.Models;
 using makeITeasy.AzureDevops.Services.Interfaces;
 
 namespace makeITeasy.AzureDevops.Infrastructure.ItemRepositories
 {
-    public class JiraRepository : IItemRepository
+    public class JiraItemRepository : IItemRepository
     {
+        public JiraItemRepository()
+        {
+        }
+
         public bool CreateItem(Item newItem)
         {
             throw new NotImplementedException();
@@ -18,7 +23,12 @@ namespace makeITeasy.AzureDevops.Infrastructure.ItemRepositories
             throw new NotImplementedException();
         }
 
-        public bool UpdateItem(Item item)
+        public Task<Item> GetByExternalID(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UpdateItem(Item item)
         {
             throw new NotImplementedException();
         }

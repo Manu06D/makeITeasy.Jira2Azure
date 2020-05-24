@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Features.AttributeFilters;
 using AutoMapper;
+using makeITeasy.AzureDevops.Infrastructure;
 using makeITeasy.AzureDevops.Infrastructure.ItemRepositories;
 using makeITeasy.AzureDevops.Infrastructure.Jobs;
 using makeITeasy.AzureDevops.Infrastructure.Scheduler;
@@ -20,6 +21,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace makeITeasy.Jira2Azure.WebApp
 {
@@ -46,19 +48,22 @@ namespace makeITeasy.Jira2Azure.WebApp
 
             services.AddHostedService<QuartzHostedService>();
 
-            services.AddAutoMapper(ModelsAssembly.GetAssembly);
+            services.AddAutoMapper(ModelsAssembly.GetAssembly, InfrastructureAssembly.GetAssembly);
             services.AddMediatR(ServiceAssembly.GetAssembly);
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterType<JiraRepository>()
+            builder.RegisterType<JiraItemRepository>()
                 .Keyed<IItemRepository>("Source");
 
-            builder.Register(x => new AzureDevopsRepository(Configuration.GetSection("ItemRepositories:AzureDevops").Get<AzureDevopsConfiguration>()))
+            builder.Register(x => 
+                new AzureDevopsItemRepository(Configuration.GetSection("ItemRepositories:AzureDevops").Get<AzureDevopsConfiguration>(), x.Resolve<IMapper>()))
                 .Keyed<IItemRepository>("Destination");
 
             builder.RegisterType<ItemService>().As<IItemService>().WithAttributeFiltering();
+
+            builder.RegisterType<AzureDevopsSourceControlRepository>().As<ISourceControlRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

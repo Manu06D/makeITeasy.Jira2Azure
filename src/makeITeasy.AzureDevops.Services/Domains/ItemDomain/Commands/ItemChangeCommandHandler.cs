@@ -22,16 +22,29 @@ namespace makeITeasy.AzureDevops.Services.Domains.ItemDomain.Commands
 
         public async Task Handle(ItemChangeCommand notification, CancellationToken cancellationToken)
         {
-            Action<Item> action =
-                notification.EventType switch
-                {
-                    ItemChangeEventType.Create => async (x) => await _itemservice.CreateItemProcessAsync(x),
-                    ItemChangeEventType.Update => async (x) => await _itemservice.UpdateItemProcessAsync(x),
-                    ItemChangeEventType.Delete => async (x) => await _itemservice.DeleteItemProcessAsync(x),
-                    _ => throw new Exception("Unable to find type for command")
-                };
+            //Action<ItemChangeMessage> action =
+            //    notification.ItemChangeMessage.EventType switch
+            //    {
+            //        ItemChangeEventType.Create => async (x) => await _itemservice.CreateItemProcessAsync(x),
+            //        ItemChangeEventType.Update => async (x) =>  await _itemservice.UpdateItemProcessAsync(x),
+            //        ItemChangeEventType.Delete => async (x) => await _itemservice.DeleteItemProcessAsync(x),
+            //        _ => throw new Exception("Unable to find type for command")
+            //    };
 
-            action(notification.Item);
+
+            //   action(notification.ItemChangeMessage);
+
+            Func<ItemChangeMessage, Task<bool>> action =
+                    notification.ItemChangeMessage.EventType switch
+                    {
+                        ItemChangeEventType.Create =>  (x) =>  _itemservice.CreateItemProcessAsync(x),
+                        ItemChangeEventType.Update =>  (x) =>  _itemservice.UpdateItemProcessAsync(x),
+                        ItemChangeEventType.Delete =>  (x) =>  _itemservice.DeleteItemProcessAsync(x),
+                        _ => throw new Exception("Unable to find type for command")
+                    };
+
+
+            var _ = await action(notification.ItemChangeMessage);
         }
     }
 }
