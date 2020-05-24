@@ -9,13 +9,11 @@ namespace makeITeasy.AzureDevops.Services.Domains.ItemDomain.Commands
 {
     public class ItemChangeCommand : INotification
     {
-        public ItemChangeEventType EventType { get; private set; }
-        public Item Item { get; private set; }
+        public ItemChangeMessage ItemChangeMessage { get; private set; }
 
-        public ItemChangeCommand(ItemChangeEventType eventType, Item item)
+        public ItemChangeCommand(ItemChangeMessage itemChangeMessage)
         {
-            EventType = eventType;
-            Item = item;
+            ItemChangeMessage = itemChangeMessage;
         }
     }
 }

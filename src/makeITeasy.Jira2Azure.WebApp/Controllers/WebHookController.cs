@@ -27,10 +27,7 @@ namespace makeITeasy.Jira2Azure.WebApp.Controllers
         [HttpPost]
         public IActionResult Jira([FromBody]JiraWebHookReceiveMessage incomingMessage)
         {
-            var eventType = _mapper.Map<ItemChangeEventType>(incomingMessage.IssueEventTypeName);
-            var item = _mapper.Map<Item>(incomingMessage.Issue);
-
-            _mediator.Publish(new ItemChangeCommand(eventType, item));
+            _mediator.Publish(new ItemChangeCommand(_mapper.Map<ItemChangeMessage>(incomingMessage)));
 
             return Ok();
         }
