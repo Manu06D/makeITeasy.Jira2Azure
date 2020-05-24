@@ -6,8 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.3" />
+    <PackageReference Include="Autofac" Version="5.2.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.4" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.4" />
+    <PackageReference Include="Quartz" Version="3.0.7" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="WebAppElements\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 

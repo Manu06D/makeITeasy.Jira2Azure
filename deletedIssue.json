@@ -1,0 +1,182 @@
+{
+  "timestamp": 1589699177237,
+  "webhookEvent": "jira:issue_deleted",
+  "user": {
+    "self": "https://xxxxxxxx.atlassian.net/rest/api/2/user?accountId=5xxxx1237xxxxx0c092a7e9a",
+    "accountId": "5xxxx1237xxxxx0c092a7e9a",
+    "avatarUrls": {
+      "48x48": "https://secure.gravatar.com/avatar/9323cfa24ac8d93969b44e8b52b02a2b?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMD-5.png&size=48&s=48",
+      "24x24": "https://secure.gravatar.com/avatar/9323cfa24ac8d93969b44e8b52b02a2b?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMD-5.png&size=24&s=24",
+      "16x16": "https://secure.gravatar.com/avatar/9323cfa24ac8d93969b44e8b52b02a2b?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMD-5.png&size=16&s=16",
+      "32x32": "https://secure.gravatar.com/avatar/9323cfa24ac8d93969b44e8b52b02a2b?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMD-5.png&size=32&s=32"
+    },
+    "displayName": "User X.",
+    "active": true,
+    "timeZone": "Europe/Paris",
+    "accountType": "atlassian"
+  },
+  "issue": {
+    "id": "10000",
+    "self": "https://xxxxxxxx.atlassian.net/rest/api/2/10000",
+    "key": "SAM-1",
+    "fields": {
+      "statuscategorychangedate": "2020-05-17T09:05:07.738+0200",
+      "issuetype": {
+        "self": "https://xxxxxxxx.atlassian.net/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Une fonctionnalité exprimée sous la forme d'un objectif utilisateur.",
+        "iconUrl": "https://xxxxxxxx.atlassian.net/secure/viewavatar?size=medium&avatarId=10315&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10315
+      },
+      "timespent": null,
+      "project": {
+        "self": "https://xxxxxxxx.atlassian.net/rest/api/2/project/10000",
+        "id": "10000",
+        "key": "SAM",
+        "name": "SampleDev",
+        "projectTypeKey": "software",
+        "simplified": false,
+        "avatarUrls": {
+          "48x48": "https://xxxxxxxx.atlassian.net/secure/projectavatar?pid=10000&avatarId=10404",
+          "24x24": "https://xxxxxxxx.atlassian.net/secure/projectavatar?size=small&s=small&pid=10000&avatarId=10404",
+          "16x16": "https://xxxxxxxx.atlassian.net/secure/projectavatar?size=xsmall&s=xsmall&pid=10000&avatarId=10404",
+          "32x32": "https://xxxxxxxx.atlassian.net/secure/projectavatar?size=medium&s=medium&pid=10000&avatarId=10404"
+        }
+      },
+      "fixVersions": [],
+      "aggregatetimespent": null,
+      "resolution": null,
+      "resolutiondate": null,
+      "workratio": -1,
+      "lastViewed": "2020-05-17T09:06:15.260+0200",
+      "watches": {
+        "self": "https://xxxxxxxx.atlassian.net/rest/api/2/issue/SAM-1/watchers",
+        "watchCount": 1,
+        "isWatching": true
+      },
+      "created": "2020-05-17T09:05:07.600+0200",
+      "customfield_10020": null,
+      "customfield_10021": null,
+      "customfield_10022": null,
+      "customfield_10023": null,
+      "priority": {
+        "self": "https://xxxxxxxx.atlassian.net/rest/api/2/priority/3",
+        "iconUrl": "https://xxxxxxxx.atlassian.net/images/icons/priorities/medium.svg",
+        "name": "Medium",
+        "id": "3"
+      },
+      "customfield_10026": null,
+      "labels": [],
+      "customfield_10016": null,
+      "customfield_10017": null,
+      "customfield_10018": {
+        "hasEpicLinkFieldDependency": false,
+        "showField": false,
+        "nonEditableReason": {
+          "reason": "PLUGIN_LICENSE_ERROR",
+          "message": "The Parent Link is only available to Jira Premium users."
+        }
+      },
+      "customfield_10019": "0|hzzzzz:",
+      "aggregatetimeoriginalestimate": null,
+      "timeestimate": null,
+      "versions": [],
+      "issuelinks": [],
+      "assignee": null,
+      "updated": "2020-05-17T09:05:53.253+0200",
+      "status": {
+        "self": "https://xxxxxxxx.atlassian.net/rest/api/2/status/10000",
+        "description": "",
+        "iconUrl": "https://xxxxxxxx.atlassian.net/",
+        "name": "Backlog",
+        "id": "10000",
+        "statusCategory": {
+          "self": "https://xxxxxxxx.atlassian.net/rest/api/2/statuscategory/2",
+          "id": 2,
+          "key": "new",
+          "colorName": "blue-gray",
+          "name": "A faire"
+        }
+      },
+      "components": [],
+      "timeoriginalestimate": null,
+      "description": "ceci est la description \\! \n\n\n\nmodification description",
+      "customfield_10010": null,
+      "customfield_10014": null,
+      "customfield_10015": null,
+      "timetracking": {},
+      "customfield_10005": null,
+      "customfield_10006": null,
+      "security": null,
+      "customfield_10007": null,
+      "customfield_10008": null,
+      "aggregatetimeestimate": null,
+      "customfield_10009": null,
+      "attachment": [],
+      "summary": "Test Ticket 1",
+      "creator": {
+        "self": "https://xxxxxxxx.atlassian.net/rest/api/2/user?accountId=5xxxx1237xxxxx0c092a7e9a",
+        "accountId": "5xxxx1237xxxxx0c092a7e9a",
+        "avatarUrls": {
+          "48x48": "https://secure.gravatar.com/avatar/9323cfa24ac8d93969b44e8b52b02a2b?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMD-5.png&size=48&s=48",
+          "24x24": "https://secure.gravatar.com/avatar/9323cfa24ac8d93969b44e8b52b02a2b?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMD-5.png&size=24&s=24",
+          "16x16": "https://secure.gravatar.com/avatar/9323cfa24ac8d93969b44e8b52b02a2b?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMD-5.png&size=16&s=16",
+          "32x32": "https://secure.gravatar.com/avatar/9323cfa24ac8d93969b44e8b52b02a2b?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMD-5.png&size=32&s=32"
+        },
+        "displayName": "User X.",
+        "active": true,
+        "timeZone": "Europe/Paris",
+        "accountType": "atlassian"
+      },
+      "subtasks": [],
+      "reporter": {
+        "self": "https://xxxxxxxx.atlassian.net/rest/api/2/user?accountId=5xxxx1237xxxxx0c092a7e9a",
+        "accountId": "5xxxx1237xxxxx0c092a7e9a",
+        "avatarUrls": {
+          "48x48": "https://secure.gravatar.com/avatar/9323cfa24ac8d93969b44e8b52b02a2b?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMD-5.png&size=48&s=48",
+          "24x24": "https://secure.gravatar.com/avatar/9323cfa24ac8d93969b44e8b52b02a2b?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMD-5.png&size=24&s=24",
+          "16x16": "https://secure.gravatar.com/avatar/9323cfa24ac8d93969b44e8b52b02a2b?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMD-5.png&size=16&s=16",
+          "32x32": "https://secure.gravatar.com/avatar/9323cfa24ac8d93969b44e8b52b02a2b?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMD-5.png&size=32&s=32"
+        },
+        "displayName": "User X.",
+        "active": true,
+        "timeZone": "Europe/Paris",
+        "accountType": "atlassian"
+      },
+      "customfield_10000": "{}",
+      "aggregateprogress": {
+        "progress": 0,
+        "total": 0
+      },
+      "customfield_10001": null,
+      "customfield_10002": null,
+      "customfield_10003": null,
+      "customfield_10004": null,
+      "environment": null,
+      "duedate": null,
+      "progress": {
+        "progress": 0,
+        "total": 0
+      },
+      "comment": {
+        "comments": [],
+        "maxResults": 0,
+        "total": 0,
+        "startAt": 0
+      },
+      "votes": {
+        "self": "https://xxxxxxxx.atlassian.net/rest/api/2/issue/SAM-1/votes",
+        "votes": 0,
+        "hasVoted": false
+      },
+      "worklog": {
+        "startAt": 0,
+        "maxResults": 20,
+        "total": 0,
+        "worklogs": []
+      }
+    }
+  }
+}
