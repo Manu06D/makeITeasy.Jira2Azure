@@ -8,9 +8,9 @@ namespace makeITeasy.AzureDevops.Services.Interfaces
 {
     public interface IItemRepository
     {
-        Task<Item> GetByExternalID(string id);
-        bool CreateItem(Item newItem);
-        bool DeleteItem(Item item);
-        Task<bool> UpdateItem(Item item);
+        Task<ItemOperationResult> GetByExternalIDAsync(string id);
+        Task<ItemOperationResult> CreateItemAsync(Item newItem);
+        Task<ItemOperationResult> DeleteItemAsync(Item item);
+        Task<ItemOperationResult> UpdateItemAsync(Item item);
     }
 }

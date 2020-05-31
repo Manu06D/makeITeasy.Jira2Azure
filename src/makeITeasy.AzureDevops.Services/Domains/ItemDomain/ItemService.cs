@@ -24,26 +24,38 @@ namespace makeITeasy.AzureDevops.Services.Domains.ItemDomain
             this._logger = logger;
         }
 
-        public async Task<bool> CreateItemProcessAsync(ItemChangeMessage itemMessage)
+        public async Task<ItemOperationResult> CreateItemProcessAsync(ItemChangeMessage itemMessage)
         {
+            ItemOperationResult result = null;
+
             _logger.LogInformation($"Creating Item {itemMessage.Item.ID}");
-            return _destinationItemRepository.CreateItem(itemMessage.Item);
+            result = await _destinationItemRepository.CreateItemAsync(itemMessage.Item);
+
+            return result;
         }
 
-        public async Task<bool> UpdateItemProcessAsync(ItemChangeMessage itemMessage)
+        public async Task<ItemOperationResult> UpdateItemProcessAsync(ItemChangeMessage itemMessage)
         {
-            bool result = false;
+            ItemOperationResult result = null;
 
             if (itemMessage.ShouldUpdate)
             {
                 _logger.LogInformation($"Updating Item {itemMessage.Item.ID}");
-                result = await _destinationItemRepository.UpdateItem(itemMessage.Item);
+
+                result = await _destinationItemRepository.UpdateItemAsync(itemMessage.Item);
+
+                if(result != null && itemMessage.PropertiesChanged.Contains("labels") && itemMessage.Item.Labels.Contains("git"))
+                {
+                    var newBranchResult = await sourceControlRepository.CreateNewBranch(itemMessage.Item.ID);
+
+                    result.HasSucceed = newBranchResult;
+                }
             }
 
             return result;
         }
 
-        public Task<bool> DeleteItemProcessAsync(ItemChangeMessage item)
+        public Task<ItemOperationResult> DeleteItemProcessAsync(ItemChangeMessage item)
         {
             throw new NotImplementedException();
         }

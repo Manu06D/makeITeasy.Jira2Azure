@@ -5,8 +5,8 @@ namespace makeITeasy.AzureDevops.Services.Domains.ItemDomain
 {
     public interface IItemService
     {
-        Task<bool> CreateItemProcessAsync(ItemChangeMessage itemMessage);
-        Task<bool> DeleteItemProcessAsync(ItemChangeMessage itemMessage);
-        Task<bool> UpdateItemProcessAsync(ItemChangeMessage itemMessage);
+        Task<ItemOperationResult> CreateItemProcessAsync(ItemChangeMessage itemMessage);
+        Task<ItemOperationResult> DeleteItemProcessAsync(ItemChangeMessage itemMessage);
+        Task<ItemOperationResult> UpdateItemProcessAsync(ItemChangeMessage itemMessage);
     }
 }

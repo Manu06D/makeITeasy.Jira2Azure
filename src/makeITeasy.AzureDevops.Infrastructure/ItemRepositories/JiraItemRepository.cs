@@ -9,26 +9,23 @@ namespace makeITeasy.AzureDevops.Infrastructure.ItemRepositories
 {
     public class JiraItemRepository : IItemRepository
     {
-        public JiraItemRepository()
-        {
-        }
 
-        public bool CreateItem(Item newItem)
+        public Task<ItemOperationResult> DeleteItemAsync(Item item)
         {
             throw new NotImplementedException();
         }
 
-        public bool DeleteItem(Item item)
+        public Task<ItemOperationResult> GetByExternalIDAsync(string id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Item> GetByExternalID(string id)
+        Task<ItemOperationResult> IItemRepository.CreateItemAsync(Item newItem)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateItem(Item item)
+        Task<ItemOperationResult> IItemRepository.UpdateItemAsync(Item item)
         {
             throw new NotImplementedException();
         }

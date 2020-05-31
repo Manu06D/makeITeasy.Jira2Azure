@@ -63,7 +63,7 @@ namespace makeITeasy.Jira2Azure.WebApp
 
             builder.RegisterType<ItemService>().As<IItemService>().WithAttributeFiltering();
 
-            builder.RegisterType<AzureDevopsSourceControlRepository>().As<ISourceControlRepository>();
+            builder.Register(x => new AzureDevopsSourceControlRepository(Configuration.GetSection("ItemRepositories:AzureDevops").Get<AzureDevopsConfiguration>(), x.Resolve<IMapper>())).As<ISourceControlRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
