@@ -4,19 +4,19 @@ using System.Text;
 
 namespace makeITeasy.AzureDevops.Models
 {
-    public class ItemOperationResult
+    public class OperationResult<TResult> where TResult : class
     {
-        public Item Item { get; set; }
+        public TResult Item { get; set; }
         public bool HasSucceed { get; set; }
         public string ErrorMessage { get; set; }
 
-        public ItemOperationResult(Item item, bool hasSucceed)
+        public OperationResult(TResult item, bool hasSucceed)
         {
             Item = item;
             HasSucceed = hasSucceed;
         }
 
-        public ItemOperationResult()
+        public OperationResult()
         {
         }
     }

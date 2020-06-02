@@ -22,7 +22,7 @@ namespace makeITeasy.AzureDevops.Services.Domains.ItemDomain.Commands
 
         public async Task Handle(ItemChangeCommand notification, CancellationToken cancellationToken)
         {
-            Func<ItemChangeMessage, Task<ItemOperationResult>> action =
+            Func<ItemChangeMessage, Task<OperationResult<Item>>> action =
                     notification.ItemChangeMessage.EventType switch
                     {
                         ItemChangeEventType.Create =>  (x) => _itemservice.CreateItemProcessAsync(x),

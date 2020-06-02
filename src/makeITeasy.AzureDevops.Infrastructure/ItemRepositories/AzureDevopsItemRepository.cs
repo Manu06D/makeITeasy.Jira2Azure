@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using makeITeasy.AzureDevops.Models;
 using makeITeasy.AzureDevops.Models.Configuration;
 using makeITeasy.AzureDevops.Services.Interfaces;
-using Microsoft.TeamFoundation.Build.WebApi;
+using Microsoft.TeamFoundation.Core.WebApi;
+using Microsoft.TeamFoundation.SourceControl.WebApi;
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi;
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
 using Microsoft.VisualStudio.Services.Common;
@@ -28,9 +30,9 @@ namespace makeITeasy.AzureDevops.Infrastructure.ItemRepositories
             _mapper = mapper;
         }
 
-        public async Task<ItemOperationResult> CreateItemAsync(Item newItem)
+        public async Task<OperationResult<Item>> CreateItemAsync(Item newItem)
         {
-            ItemOperationResult result = new ItemOperationResult();
+            OperationResult<Item> result = new OperationResult<Item>();
 
             JsonPatchDocument patchDocument = new JsonPatchDocument();
 
@@ -49,9 +51,9 @@ namespace makeITeasy.AzureDevops.Infrastructure.ItemRepositories
             return result;
         }
 
-        public async Task<ItemOperationResult> DeleteItemAsync(Item item)
+        public async Task<OperationResult<Item>> DeleteItemAsync(Item item)
         {
-            ItemOperationResult result = new ItemOperationResult();
+            OperationResult<Item> result = new OperationResult<Item>();
 
             using (var connection = new VssConnection(_azureDevopsConfiguration.Uri, new VssBasicCredential(string.Empty, _azureDevopsConfiguration.Token)))
             using (var workItemTrackingHttpClient = connection.GetClient<WorkItemTrackingHttpClient>())
@@ -74,10 +76,22 @@ namespace makeITeasy.AzureDevops.Infrastructure.ItemRepositories
             return result;
         }
 
-        public async Task<ItemOperationResult> GetByExternalIDAsync(string Id)
+        public async Task<OperationResult<Item>> GetByExternalIDAsync(string Id)
         {
-            ItemOperationResult result = new ItemOperationResult();
+            OperationResult<Item> result = new OperationResult<Item>();
 
+            WorkItem azureWorkItem = await InternalGetByExternalIDAsync(Id);
+
+            var transformedWorkItem = azureWorkItem?.Fields.ToDictionary(p => p.Key.StartsWith("System.") ? p.Key.Substring(7) : p.Key, v => v.Value);
+
+            result.Item = _mapper.Map<Item>(transformedWorkItem);
+            result.HasSucceed = result.Item != null;
+
+            return result;
+        }
+
+        private async Task<WorkItem> InternalGetByExternalIDAsync(string Id)
+        {
             var wiql = new Wiql() { Query = $"Select [Id]  From WorkItems Where [System.TeamProject] = '{_azureDevopsConfiguration.ProjectName}' And Title contains '[{Id}]'" };
 
             using (var connection = new VssConnection(_azureDevopsConfiguration.Uri, new VssBasicCredential(string.Empty, _azureDevopsConfiguration.Token)))
@@ -89,19 +103,16 @@ namespace makeITeasy.AzureDevops.Infrastructure.ItemRepositories
                 if (workItemIds.Any())
                 {
                     var fields = new[] { "System.Id", "System.Title", "System.Description" };
-                    var workItems = await client.GetWorkItemsAsync(workItemIds, fields, remoteResult.AsOf).ConfigureAwait(false);
+                    var workItems = await client.GetWorkItemsAsync(workItemIds, fields).ConfigureAwait(false);
 
-                    var transformedWorkItem = workItems.FirstOrDefault()?.Fields.ToDictionary(p => p.Key.StartsWith("System.") ? p.Key.Substring(7) : p.Key, v => v.Value);
-
-                    result.Item = _mapper.Map<Item>(transformedWorkItem);
-                    result.HasSucceed = result.Item != null;
+                    return workItems.FirstOrDefault();
                 }
             }
 
-            return result;
+            return null;
         }
 
-        public async Task<ItemOperationResult> UpdateItemAsync(Item item)
+        public async Task<OperationResult<Item>> UpdateItemAsync(Item item)
         {
             var getAzureItem = await GetByExternalIDAsync(item.ID);
 
@@ -117,19 +128,58 @@ namespace makeITeasy.AzureDevops.Infrastructure.ItemRepositories
                 using (var connection = new VssConnection(_azureDevopsConfiguration.Uri, new VssBasicCredential(string.Empty, _azureDevopsConfiguration.Token)))
                 using (var client = connection.GetClient<WorkItemTrackingHttpClient>())
                 {
-                    var t = _mapper.Map<JsonPatchDocument>(mergedItem);
+                    var azureWorkItem = _mapper.Map<JsonPatchDocument>(mergedItem);
 
                     int.TryParse(mergedItem.ID, out int azureItemID);
-                    var result = await client.UpdateWorkItemAsync(t, azureItemID);
+
+                    WorkItem result = await client.UpdateWorkItemAsync(azureWorkItem, azureItemID);
+
+                    var transformedWorkItem = result?.Fields.ToDictionary(p => p.Key.StartsWith("System.") ? p.Key.Substring(7) : p.Key, v => v.Value);
+                    transformedWorkItem["ID"] = item.ID;
+
+                    if (result != null)
+                    {
+                        return new OperationResult<Item>(_mapper.Map<Item>(transformedWorkItem), true);
+                    }
                 }
-
-
-                return new ItemOperationResult(mergedItem, true);
             }
-            else
+
+            return new OperationResult<Item>();
+        }
+
+        public async Task<bool> UpdateItemWithSourceControlInfoAsync(Item item, GitCommitInfo commitInfo)
+        {
+            WorkItem azureWorkItem = await InternalGetByExternalIDAsync(item.ID);
+
+            using (var connection = new VssConnection(_azureDevopsConfiguration.Uri, new VssBasicCredential(string.Empty, _azureDevopsConfiguration.Token)))
+            using (var client = connection.GetClient<WorkItemTrackingHttpClient>())
             {
-                return new ItemOperationResult();
+
+                JsonPatchDocument patchDocument = new JsonPatchDocument();
+
+                patchDocument.Add(
+                    new JsonPatchOperation()
+                    {
+                        Operation = Operation.Add,
+                        Path = "/relations/-",
+                        Value = new
+                        {
+                            rel = "ArtifactLink",
+                            url = $"vstfs:///Git/Ref/{commitInfo.ProjectID}%2F{commitInfo.RepositoryID}%2FGBfeatures%2F{commitInfo.BranchName}",
+                            attributes = new
+                            {
+                                name = "Branch",
+                                comment = "Comment"
+                            },
+                        }
+                    });
+
+                int.TryParse(item.ID, out int azureItemID);
+
+                var remoteResult = await client.UpdateWorkItemAsync(patchDocument, azureWorkItem.Id.GetValueOrDefault());
             }
+
+            return true;
         }
     }
 }

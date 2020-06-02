@@ -24,9 +24,9 @@ namespace makeITeasy.AzureDevops.Services.Domains.ItemDomain
             this._logger = logger;
         }
 
-        public async Task<ItemOperationResult> CreateItemProcessAsync(ItemChangeMessage itemMessage)
+        public async Task<OperationResult<Item>> CreateItemProcessAsync(ItemChangeMessage itemMessage)
         {
-            ItemOperationResult result = null;
+            OperationResult<Item> result = null;
 
             _logger.LogInformation($"Creating Item {itemMessage.Item.ID}");
             result = await _destinationItemRepository.CreateItemAsync(itemMessage.Item);
@@ -34,9 +34,9 @@ namespace makeITeasy.AzureDevops.Services.Domains.ItemDomain
             return result;
         }
 
-        public async Task<ItemOperationResult> UpdateItemProcessAsync(ItemChangeMessage itemMessage)
+        public async Task<OperationResult<Item>> UpdateItemProcessAsync(ItemChangeMessage itemMessage)
         {
-            ItemOperationResult result = null;
+            OperationResult<Item> result = null;
 
             if (itemMessage.ShouldUpdate)
             {
@@ -48,14 +48,21 @@ namespace makeITeasy.AzureDevops.Services.Domains.ItemDomain
                 {
                     var newBranchResult = await sourceControlRepository.CreateNewBranch(itemMessage.Item.ID);
 
-                    result.HasSucceed = newBranchResult;
+                    var t = await _destinationItemRepository.UpdateItemWithSourceControlInfoAsync(result.Item, newBranchResult.Item);
+
+                    //if (newBranchResult )
+                    //{
+                    //    var t = await _destinationItemRepository.UpdateItemWithSourceControlInfoAsync(result.Item);
+                    //}
+
+                    result.HasSucceed = newBranchResult.HasSucceed;
                 }
             }
 
             return result;
         }
 
-        public Task<ItemOperationResult> DeleteItemProcessAsync(ItemChangeMessage item)
+        public Task<OperationResult<Item>> DeleteItemProcessAsync(ItemChangeMessage item)
         {
             throw new NotImplementedException();
         }
