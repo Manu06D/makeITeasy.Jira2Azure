@@ -42,7 +42,7 @@ namespace makeITeasy.AzureDevops.Infrastructure.ItemRepositories
             using (var connection = new VssConnection(_azureDevopsConfiguration.Uri, new VssBasicCredential(string.Empty, _azureDevopsConfiguration.Token)))
             using (var workItemTrackingHttpClient = connection.GetClient<WorkItemTrackingHttpClient>())
             {
-                    var remoteResult = await workItemTrackingHttpClient.CreateWorkItemAsync(patchDocument, _azureDevopsConfiguration.ProjectName, "Task");
+                    WorkItem remoteResult = await workItemTrackingHttpClient.CreateWorkItemAsync(patchDocument, _azureDevopsConfiguration.ProjectName, "Task");
 
                     result.Item = _mapper.Map<Item>(remoteResult);
                     result.HasSucceed = remoteResult != null;

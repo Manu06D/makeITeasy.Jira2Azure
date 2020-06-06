@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 using AutoMapper;
 using makeITeasy.AzureDevops.Models;
+using Microsoft.TeamFoundation.SourceControl.WebApi;
+using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
 using Microsoft.VisualStudio.Services.WebApi.Patch;
 using Microsoft.VisualStudio.Services.WebApi.Patch.Json;
 
@@ -13,10 +16,13 @@ namespace makeITeasy.AzureDevops.Infrastructure
         public InfrastructureMappingProfiles()
         {
             CreateMap<Item, JsonPatchDocument>()
-                .ConvertUsing(new JsonPatchDocumentTypeConverter());
+                .ConvertUsing(new ItemToJsonPathDocumentConverter());
+
+            CreateMap<WorkItem, Item>()
+                .ConvertUsing(new WorkItemToItemConverter());
         }
 
-        public class JsonPatchDocumentTypeConverter : ITypeConverter<Item, JsonPatchDocument>
+        public class ItemToJsonPathDocumentConverter : ITypeConverter<Item, JsonPatchDocument>
         {
             public JsonPatchDocument Convert(Item source, JsonPatchDocument destination, ResolutionContext context)
             {
@@ -25,6 +31,18 @@ namespace makeITeasy.AzureDevops.Infrastructure
                 patchDocument.Add(new JsonPatchOperation() { Operation = Operation.Add, Path = "/fields/System.Description", Value = $"{source.Description}" });
 
                 return patchDocument;
+            }
+        }
+
+        public class WorkItemToItemConverter : ITypeConverter<WorkItem, Item>
+        {
+            public Item Convert(WorkItem source, Item destination, ResolutionContext context)
+            {
+                var result = new Item();
+                result.ID = source.Id.ToString();
+                result.Title = source.Fields["System.Title"].ToString();
+
+                return result;
             }
         }
     }

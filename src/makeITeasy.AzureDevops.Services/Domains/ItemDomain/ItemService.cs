@@ -26,7 +26,7 @@ namespace makeITeasy.AzureDevops.Services.Domains.ItemDomain
 
         public async Task<OperationResult<Item>> CreateItemProcessAsync(ItemChangeMessage itemMessage)
         {
-            OperationResult<Item> result = null;
+            OperationResult<Item> result = new OperationResult<Item>();
 
             _logger.LogInformation($"Creating Item {itemMessage.Item.ID}");
             result = await _destinationItemRepository.CreateItemAsync(itemMessage.Item);
