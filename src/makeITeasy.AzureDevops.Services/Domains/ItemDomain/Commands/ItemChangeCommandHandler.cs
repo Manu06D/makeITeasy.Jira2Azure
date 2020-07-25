@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using makeITeasy.AzureDevops.Models;
@@ -31,7 +29,9 @@ namespace makeITeasy.AzureDevops.Services.Domains.ItemDomain.Commands
                         _ => throw new Exception("Unable to find type for command")
                     };
 
-            var _ = await action(notification.ItemChangeMessage);
+            OperationResult<Item> actionResult = await action(notification.ItemChangeMessage);
+
+            _logger.LogDebug($"Received action {notification.ItemChangeMessage} with Result {actionResult.HasSucceed}");
         }
     }
 }

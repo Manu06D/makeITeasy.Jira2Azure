@@ -58,12 +58,18 @@ namespace makeITeasy.Jira2Azure.WebApp
                 .Keyed<IItemRepository>("Source");
 
             builder.Register(x => 
-                new AzureDevopsItemRepository(Configuration.GetSection("ItemRepositories:AzureDevops").Get<AzureDevopsConfiguration>(), x.Resolve<IMapper>()))
-                .Keyed<IItemRepository>("Destination");
+                new AzureDevopsItemRepository(
+                    Configuration.GetSection("ItemRepositories:AzureDevops").Get<AzureDevopsConfiguration>(), 
+                    x.Resolve<IMapper>(), 
+                    x.Resolve<ILogger<AzureDevopsItemRepository>>())
+                ).Keyed<IItemRepository>("Destination");
 
             builder.RegisterType<ItemService>().As<IItemService>().WithAttributeFiltering();
 
-            builder.Register(x => new AzureDevopsSourceControlRepository(Configuration.GetSection("ItemRepositories:AzureDevops").Get<AzureDevopsConfiguration>(), x.Resolve<IMapper>())).As<ISourceControlRepository>();
+            builder.Register(x => new AzureDevopsSourceControlRepository(
+                Configuration.GetSection("ItemRepositories:AzureDevops").Get<AzureDevopsConfiguration>(), 
+                x.Resolve<ILogger<AzureDevopsSourceControlRepository>>())
+            ).As<ISourceControlRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,10 +82,8 @@ namespace makeITeasy.Jira2Azure.WebApp
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                //app.UseHsts();
             }
 
-            //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();

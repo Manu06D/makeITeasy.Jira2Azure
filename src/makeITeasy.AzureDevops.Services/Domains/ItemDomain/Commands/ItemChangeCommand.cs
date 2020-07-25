@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using makeITeasy.AzureDevops.Models;
+﻿using makeITeasy.AzureDevops.Models;
 using MediatR;
 
 namespace makeITeasy.AzureDevops.Services.Domains.ItemDomain.Commands

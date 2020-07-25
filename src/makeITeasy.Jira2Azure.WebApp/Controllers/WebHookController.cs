@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using makeITeasy.AzureDevops.Models;
 using makeITeasy.AzureDevops.Services.Domains.ItemDomain.Commands;
 using MediatR;

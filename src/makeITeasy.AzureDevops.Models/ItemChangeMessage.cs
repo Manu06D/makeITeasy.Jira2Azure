@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace makeITeasy.AzureDevops.Models
 {
@@ -8,7 +6,12 @@ namespace makeITeasy.AzureDevops.Models
     {
         public Item Item { get; set; }
         public ItemChangeEventType EventType {get;set;}
-        public List<string> PropertiesChanged { get; set; }
+        public List<string> PropertiesChanged { get; set; } = new List<string>();
         public bool ShouldUpdate { get; set; }
+
+        public override string ToString()
+        {
+            return $"{EventType}:{Item.ID}";
+        }
     }
 }

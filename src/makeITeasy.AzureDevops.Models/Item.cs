@@ -12,5 +12,10 @@ namespace makeITeasy.AzureDevops.Models
         public string Description { get; set; }
 
         public List<string> Labels { get; set; }
+
+        public override string ToString()
+        {
+            return $"{ID}:{Title}";
+        }
     }
 }
