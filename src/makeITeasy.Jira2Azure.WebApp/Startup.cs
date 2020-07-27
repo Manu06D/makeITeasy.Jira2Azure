@@ -57,12 +57,9 @@ namespace makeITeasy.Jira2Azure.WebApp
             builder.RegisterType<JiraItemRepository>()
                 .Keyed<IItemRepository>("Source");
 
-            builder.Register(x => 
-                new AzureDevopsItemRepository(
-                    Configuration.GetSection("ItemRepositories:AzureDevops").Get<AzureDevopsConfiguration>(), 
-                    x.Resolve<IMapper>(), 
-                    x.Resolve<ILogger<AzureDevopsItemRepository>>())
-                ).Keyed<IItemRepository>("Destination");
+            builder.RegisterType<AzureDevopsItemRepository>()
+                .WithParameter(new TypedParameter(typeof(AzureDevopsConfiguration), Configuration.GetSection("ItemRepositories:AzureDevops").Get<AzureDevopsConfiguration>()))
+                .Keyed<IItemRepository>("Destination");
 
             builder.RegisterType<ItemService>().As<IItemService>().WithAttributeFiltering();
 
