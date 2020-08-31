@@ -11,15 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "makeITeasy.AzureDevops.Serv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "makeITeasy.AzureDevops.Models", "src\makeITeasy.AzureDevops.Models\makeITeasy.AzureDevops.Models.csproj", "{2321C2A2-C463-4553-A674-13B0822C14A7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "traces", "traces", "{B27342BC-93C3-4CE7-8A01-B0992F0AEA40}"
-	ProjectSection(SolutionItems) = preProject
-		addlabel.json = addlabel.json
-		addlabel2.json = addlabel2.json
-		createdIssue.json = createdIssue.json
-		deletedIssue.json = deletedIssue.json
-		modifiedIssue.json = modifiedIssue.json
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{25C56732-DB21-468B-B3AF-805063F858FC}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
@@ -28,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{25C56732-D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F3B8F76F-F0BE-4CDD-BFDE-2B854F3411D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "makeITeasy.Jira2Azure.Tests", "makeITeasy.Jira2Azure.Tests\makeITeasy.Jira2Azure.Tests.csproj", "{454F091D-69F7-4CC2-BACF-57944B6467C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "makeITeasy.Jira2Azure.Tests", "makeITeasy.Jira2Azure.Tests\makeITeasy.Jira2Azure.Tests.csproj", "{454F091D-69F7-4CC2-BACF-57944B6467C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
