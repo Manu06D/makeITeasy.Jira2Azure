@@ -57,7 +57,9 @@ namespace makeITeasy.AzureDevops.Infrastructure.ItemRepositories
             {
                 int.TryParse(getAzureItem.Item.ID, out int azureItemID);
 
-                var _ = await ProcessWorkItemTrackingHttpAction(x => x.DeleteWorkItemAsync(_azureDevopsConfiguration.ProjectName, azureItemID));
+                _ = await ProcessWorkItemTrackingHttpAction(x => x.DeleteWorkItemAsync(_azureDevopsConfiguration.ProjectName, azureItemID));
+
+                //Todo
             }
             else
             {

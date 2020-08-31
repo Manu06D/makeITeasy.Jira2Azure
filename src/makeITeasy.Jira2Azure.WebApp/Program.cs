@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Serilog;
+using Serilog.Events;
 
 namespace makeITeasy.Jira2Azure.WebApp
 {
@@ -21,6 +23,11 @@ namespace makeITeasy.Jira2Azure.WebApp
             .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+            .UseSerilog((hostingContext, loggerConfiguration) =>
+            {
+                loggerConfiguration .ReadFrom.Configuration(hostingContext.Configuration) .Enrich.FromLogContext();
+            })
+            ;
     }
 }

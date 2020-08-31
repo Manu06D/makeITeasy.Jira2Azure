@@ -36,7 +36,7 @@ namespace makeITeasy.AzureDevops.Services.Domains.ItemDomain
 
         public async Task<OperationResult<Item>> UpdateItemProcessAsync(ItemChangeMessage itemMessage)
         {
-            if (itemMessage != null && itemMessage.ShouldUpdate)
+            if (itemMessage?.ShouldUpdate == true)
             {
                 _logger.LogInformation($"Updating Item {itemMessage.Item.ID}");
 
@@ -56,7 +56,7 @@ namespace makeITeasy.AzureDevops.Services.Domains.ItemDomain
 
                             return result;
                         }
-                    }                    
+                    }
                 }
             }
 

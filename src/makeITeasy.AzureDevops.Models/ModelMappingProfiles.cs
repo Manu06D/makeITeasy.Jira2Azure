@@ -15,7 +15,7 @@ namespace makeITeasy.AzureDevops.Models
         public ModelMappingProfiles()
         {
             CreateMap<JiraWebHookReceiveMessage, ItemChangeMessage>()
-                .ForMember(dest => dest.PropertiesChanged, opt => opt.MapFrom(src => src.Changelog.Items.Select(x => x.FieldId).ToList()))
+                .ForMember(dest => dest.PropertiesChanged, opt => opt.MapFrom(src => src.Changelog.Items.Select(x => x.Field).ToList()))
                 .ForMember(dest => dest.Item, opt => opt.MapFrom(src => src.Issue))
                 .ForMember(dest => dest.EventType, opt => opt.MapFrom(src => src.IssueEventTypeName))
                 .ForMember(dest => dest.ShouldUpdate, opt => opt.MapFrom<ShouldUpdateResolver>())
@@ -70,8 +70,7 @@ namespace makeITeasy.AzureDevops.Models
                     context.ConfigurationProvider.FindTypeMapFor(typeof(JiraIssue), typeof(Item)).PropertyMaps.Select(x => x.SourceMember.Name)
                     .Union(context.ConfigurationProvider.FindTypeMapFor(typeof(Fields), typeof(Item)).PropertyMaps.Select(x => x.SourceMember.Name)).ToList();
 
-
-                return source.Changelog.Items.Any(x => propertiesToWatch.Contains(x.FieldId, StringComparer.InvariantCultureIgnoreCase));
+                return source.Changelog?.Items.Any(x => propertiesToWatch.Contains(x.Field, StringComparer.InvariantCultureIgnoreCase)) ?? false;
             }
         }
     }

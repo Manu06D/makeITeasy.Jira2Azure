@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using makeITeasy.AzureDevops.Models;
 using makeITeasy.AzureDevops.Services.Interfaces;

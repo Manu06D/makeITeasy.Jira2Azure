@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -56,23 +53,23 @@ namespace makeITeasy.AzureDevops.Models
         [JsonProperty("fieldId")]
         public string FieldId { get; set; }
 
-        [JsonProperty("from")]
-        public object From { get; set; }
+        //[JsonProperty("from")]
+        //public object From { get; set; }
 
-        [JsonProperty("fromString")]
-        public object FromString { get; set; }
+        //[JsonProperty("fromString")]
+        //public object FromString { get; set; }
 
-        [JsonProperty("to")]
-        public string To { get; set; }
+        //[JsonProperty("to")]
+        //public string To { get; set; }
 
-        [JsonProperty("toString")]
-        public string ItemToString { get; set; }
+        //[JsonProperty("toString")]
+        //public string ItemToString { get; set; }
 
-        [JsonProperty("tmpFromAccountId")]
-        public object TmpFromAccountId { get; set; }
+        //[JsonProperty("tmpFromAccountId")]
+        //public object TmpFromAccountId { get; set; }
 
-        [JsonProperty("tmpToAccountId", NullValueHandling = NullValueHandling.Ignore)]
-        public string TmpToAccountId { get; set; }
+        //[JsonProperty("tmpToAccountId", NullValueHandling = NullValueHandling.Ignore)]
+        //public string TmpToAccountId { get; set; }
     }
 
     public partial class JiraIssue

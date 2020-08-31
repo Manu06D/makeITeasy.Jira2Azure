@@ -7,66 +7,52 @@ using Microsoft.VisualStudio.Services.WebApi;
 using System.Threading.Tasks;
 using System.Linq;
 using makeITeasy.AzureDevops.Models;
-using Microsoft.Extensions.Logging;
 
 namespace makeITeasy.AzureDevops.Infrastructure.ItemRepositories
 {
     public class AzureDevopsSourceControlRepository : ISourceControlRepository
     {
+        private const string ciFilePath = "/_no_ci_file";
         private readonly AzureDevopsConfiguration _azureDevopsConfiguration;
-        private readonly ILogger<AzureDevopsSourceControlRepository> _logger;
 
-        public AzureDevopsSourceControlRepository(AzureDevopsConfiguration azureDevopsConfiguration, ILogger<AzureDevopsSourceControlRepository> logger)
+        public AzureDevopsSourceControlRepository(AzureDevopsConfiguration azureDevopsConfiguration)
         {
             _azureDevopsConfiguration = azureDevopsConfiguration;
-            _logger = logger;
         }
 
         public async Task<OperationResult<GitCommitInfo>> CreateNewBranch(string name)
         {
             OperationResult<GitCommitInfo> result = new OperationResult<GitCommitInfo>();
-
-            try
+            using (var connection = new VssConnection(_azureDevopsConfiguration.Uri, new VssBasicCredential(string.Empty, _azureDevopsConfiguration.Token)))
+            using (var client = connection.GetClient<GitHttpClient>())
             {
-                using (var connection = new VssConnection(_azureDevopsConfiguration.Uri, new VssBasicCredential(string.Empty, _azureDevopsConfiguration.Token)))
+                var repositories = await client.GetRepositoriesAsync(_azureDevopsConfiguration.ProjectName);
+
+                var repository = repositories?.First(r => string.Compare(r.Name, _azureDevopsConfiguration.GITSourceControl.RepositoryName, true) == 0);
+
+                if (repository == null)
                 {
-                    using (var client = connection.GetClient<GitHttpClient>())
-                    {
-                        var repositories = await client.GetRepositoriesAsync(_azureDevopsConfiguration.ProjectName);
-
-                        var repository = repositories?.First(r => string.Compare(r.Name, _azureDevopsConfiguration.GITSourceControl.RepositoryName, true) == 0);
-
-                        if (repository == null)
-                        {
-                            throw new Exception($"Unable to find repository {_azureDevopsConfiguration.GITSourceControl.RepositoryName} in the project {_azureDevopsConfiguration.ProjectName}. List of repositories : {String.Join(",", repositories.Select(r => r.Name).ToArray())})");
-                        }
-
-                        var masterBranch = await client.GetBranchAsync(repository.Id, _azureDevopsConfiguration.GITSourceControl.MasterBranch);
-
-                        if (masterBranch == null)
-                        {
-                            throw new Exception($"Unable to find masterBranch {_azureDevopsConfiguration.GITSourceControl.MasterBranch}");
-                        }
-
-                        //string branchResult = await InnerCreateBranch(name, client, repository.Id, masterBranch.Commit.CommitId);
-
-                        string branchCommitID = await InnerCreateBranch2(name, client, repository.Id, masterBranch.Commit.CommitId);
-
-                        GitCommitInfo gci = new GitCommitInfo();
-                        gci.ProjectID = repository.ProjectReference.Id.ToString();
-                        gci.RepositoryID = repository.Id.ToString();
-                        gci.CommitID = branchCommitID;
-                        gci.BranchName = name;
-
-                        result.Item = gci;
-                        result.HasSucceed = !string.IsNullOrWhiteSpace(branchCommitID);
-                    }
+                    throw 
+                        new Exception($"Unable to find repository {_azureDevopsConfiguration.GITSourceControl.RepositoryName} in the project {_azureDevopsConfiguration.ProjectName}. List of repositories : {String.Join(",", repositories.Select(r => r.Name).ToArray())})");
                 }
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception.Message, exception);
-                result.ErrorMessage = exception.Message;
+
+                var masterBranch = await client.GetBranchAsync(repository.Id, _azureDevopsConfiguration.GITSourceControl.MasterBranch);
+
+                if (masterBranch == null)
+                {
+                    throw new Exception($"Unable to find masterBranch {_azureDevopsConfiguration.GITSourceControl.MasterBranch}");
+                }
+
+                string branchCommitID = await InnerCreateBranch(name, client, repository.Id, masterBranch.Commit.CommitId);
+
+                GitCommitInfo gci = new GitCommitInfo();
+                gci.ProjectID = repository.ProjectReference.Id.ToString();
+                gci.RepositoryID = repository.Id.ToString();
+                gci.CommitID = branchCommitID;
+                gci.BranchName = name;
+
+                result.Item = gci;
+                result.HasSucceed = !string.IsNullOrWhiteSpace(branchCommitID);
             }
 
             return result;
@@ -74,21 +60,17 @@ namespace makeITeasy.AzureDevops.Infrastructure.ItemRepositories
 
         private async Task<string> InnerCreateBranch(string name, GitHttpClient client, Guid repositoryID, string newObjectCommitID)
         {
-            var branchResult = await client.UpdateRefsAsync(
-                new GitRefUpdate[] {
-                        new GitRefUpdate
-                        {
-                            Name = $"{_azureDevopsConfiguration.GITSourceControl.NewBranchPath}/{name}",
-                            NewObjectId = newObjectCommitID,
-                            OldObjectId = new string('0', 40)}
-                },
-                repositoryId: repositoryID);
+            bool isCIFileExist = true;
 
-            return branchResult.FirstOrDefault()?.NewObjectId;
-        }
+            try
+            {
+                _ = await client.GetItemAsync(repositoryID, ciFilePath);
+            }
+            catch (Exception)
+            {
+                isCIFileExist = false;
+            }
 
-        private async Task<string> InnerCreateBranch2(string name, GitHttpClient client, Guid repositoryID, string newObjectCommitID)
-        {
             GitRefUpdate newBranch = new GitRefUpdate()
             {
                 Name = $"{_azureDevopsConfiguration.GITSourceControl.NewBranchPath}/{name}",
@@ -102,7 +84,7 @@ namespace makeITeasy.AzureDevops.Infrastructure.ItemRepositories
                 {
                         new GitChange()
                         {
-                            ChangeType = VersionControlChangeType.Add,
+                            ChangeType = isCIFileExist ? VersionControlChangeType.Edit : VersionControlChangeType.Add,
                             Item = new GitItem() { Path = $"/_no_ci_file" },
                             NewContent = new ItemContent()
                             {
