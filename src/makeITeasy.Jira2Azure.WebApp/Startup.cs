@@ -1,17 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Autofac;
 using Autofac.Features.AttributeFilters;
 using AutoMapper;
 using makeITeasy.AzureDevops.Infrastructure;
 using makeITeasy.AzureDevops.Infrastructure.ItemRepositories;
-using makeITeasy.AzureDevops.Infrastructure.Jobs;
-using makeITeasy.AzureDevops.Infrastructure.Scheduler;
 using makeITeasy.AzureDevops.Models;
 using makeITeasy.AzureDevops.Models.Configuration;
-using makeITeasy.AzureDevops.Models.Scheduler;
 using makeITeasy.AzureDevops.Services;
 using makeITeasy.AzureDevops.Services.Domains.ItemDomain;
 using makeITeasy.AzureDevops.Services.Interfaces;
@@ -21,7 +14,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace makeITeasy.Jira2Azure.WebApp
 {
@@ -39,14 +31,6 @@ namespace makeITeasy.Jira2Azure.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews().AddNewtonsoftJson();
-
-            services.RegisterScheduler();
-
-            //register jobs
-            services.AddScoped<FoobarJob>();
-            services.AddSingleton(new JobSchedule(jobType: typeof(FoobarJob), cronExpression: "0/5 * * * * ?"));
-
-            services.AddHostedService<QuartzHostedService>();
 
             services.AddAutoMapper(ModelsAssembly.GetAssembly, InfrastructureAssembly.GetAssembly);
             services.AddMediatR(ServiceAssembly.GetAssembly);
