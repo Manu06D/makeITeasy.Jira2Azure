@@ -50,7 +50,7 @@ namespace makeITeasy.AzureDevops.Services.Domains.ItemDomain
                     {
                         bool isNewBranchItemAssociated = await _destinationItemRepository.UpdateItemWithSourceControlInfoAsync(result.Item, newBranchResult.Item);
 
-                        if(isNewBranchItemAssociated)
+                        if(isNewBranchItemAssociated) 
                         {
                             result.HasSucceed = newBranchResult.HasSucceed;
 
