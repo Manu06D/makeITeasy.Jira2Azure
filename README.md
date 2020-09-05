@@ -1,16 +1,13 @@
 [![MIT License][license-shield]][license-url]
 
-<br />
-<p align="center">
-  <h3 align="center">makeITeasy.Jira2Azure</h3>
-</p>
+# makeITeasy.Jira2Azure
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Website app that listen to JIRA webhook messages and create a work item in TFS Server. 
+This webApp listens to JIRA webhook messages and create work items in Azure Devops Server (cloud or on-premise). 
 
-app also creates a new GIT branch and associates the branch with the newly created workitem. Branch is created with ***NO_CI*** commit message to avoid unwanted build trigger.
+The webApp can also create a new GIT branch and associate the branch with the newly created workitem. Branch is created with ***NO_CI*** commit message to avoid unwanted build triggers.
 
 ### Built With
 
@@ -21,17 +18,33 @@ app also creates a new GIT branch and associates the branch with the newly creat
 <!-- GETTING STARTED -->
 ## Getting Started
 
+Once configuration is properly done, just take a seat a watch your azure devops backlog filled with your jira created/updated tickets
 
-Setup has to be done on JIRA to set the webhook to the following url : https://myserver/WebHookController/Jira
-Fill the configuration with an azure valid URL, a project name and a personal  token with full code access.
-
-To get a local copy up and running follow these simple example steps.
+When you set a label named "git" in your jira ticket, git branch will be automatically created and the branch name pattern will be features/[JIRA-ID] (configurable)
 
 ### Installation
 
-1. Setup webhook in JIRA with following url : https://myserver/WebHookController/Jira
-2. Configure appsettings.json with your Azure Devops URL, your security toeken (full access to code)
+1. Configure appsettings.json  
+```
+"ItemRepositories": {
+    "AzureDevops": {
+      "Uri": "",
+      "Token": "",
+      "GITSourceControl": {
+        "RepositoryName": "MakeITEasy.VacationRequest",
+        "MasterBranch": "master",
+        "NewBranchPath": "refs/heads/features"
+      }
+    }
+```
+AzureDevops/Uri is your top level azure devops site url
+AzureDevops/Token  is your security token generated on azure devops server with full access to code
+AzureDevops/GITSourceControl/RepositoryName : Name of your project as defined in Azure Devops
+AzureDevops/GITSourceControl/MasterBranch : Name of your base branch
+AzureDevops/GITSourceControl/NewBranchPath : Git virtual path to your new branch
 
+2. Deploy the aspnet core web app
+3. Setup webhook in JIRA with following url : https://myserver/WebHookController/Jira
 
 <!-- LICENSE -->
 ## License
