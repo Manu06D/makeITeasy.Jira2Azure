@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Autofac.Features.AttributeFilters;
 using makeITeasy.AzureDevops.Models;
@@ -9,6 +10,7 @@ namespace makeITeasy.AzureDevops.Services.Domains.ItemDomain
 {
     public class ItemService : IItemService
     {
+        private const string GitLabelPrefix = "git";
         private readonly IItemRepository _destinationItemRepository;
         private readonly IItemRepository _sourceItemRepository;
         private readonly ISourceControlRepository _sourceControlRepository;
@@ -42,9 +44,11 @@ namespace makeITeasy.AzureDevops.Services.Domains.ItemDomain
 
                 OperationResult<Item> result = await _destinationItemRepository.UpdateItemAsync(itemMessage.Item);
 
-                if (result?.HasSucceed == true && itemMessage.PropertiesChanged?.Contains("labels") == true && itemMessage.Item?.Labels?.Contains("git") == true)
+                if (result?.HasSucceed == true && itemMessage.PropertiesChanged?.Contains("labels") == true && itemMessage.Item?.Labels?.Any(x => x.StartsWith(GitLabelPrefix)) == true)
                 {
-                    var newBranchResult = await _sourceControlRepository.CreateNewBranch(itemMessage.Item.ID);
+                    string gitLabel = itemMessage.Item?.Labels?.FirstOrDefault(x => x.StartsWith(GitLabelPrefix)) ?? String.Empty;
+
+                    var newBranchResult = await _sourceControlRepository.CreateNewBranch($"{itemMessage.Item.ID}{gitLabel.Substring(GitLabelPrefix.Length)}");
 
                     if (newBranchResult.HasSucceed)
                     {
