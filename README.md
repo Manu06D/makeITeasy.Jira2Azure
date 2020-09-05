@@ -5,7 +5,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This webApp listens to JIRA webhook messages and create work items in Azure Devops Server (cloud or on-premise). 
+This webApp listens to JIRA webhook messages and creates work items in Azure Devops Server (cloud or on-premise). 
 
 The webApp can also create a new GIT branch and associate the branch with the newly created workitem. Branch is created with ***NO_CI*** commit message to avoid unwanted build triggers.
 
@@ -38,9 +38,13 @@ When you set a label named "git" in your jira ticket, git branch will be automat
     }
 ```
 AzureDevops/Uri is your top level azure devops site url
+
 AzureDevops/Token  is your security token generated on azure devops server with full access to code
+
 AzureDevops/GITSourceControl/RepositoryName : Name of your project as defined in Azure Devops
+
 AzureDevops/GITSourceControl/MasterBranch : Name of your base branch
+
 AzureDevops/GITSourceControl/NewBranchPath : Git virtual path to your new branch
 
 2. Deploy the aspnet core web app
@@ -50,6 +54,8 @@ AzureDevops/GITSourceControl/NewBranchPath : Git virtual path to your new branch
 ## License
 
 Distributed under the MIT License. 
+
+Don't hesitate to contact me for any inquieries
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
